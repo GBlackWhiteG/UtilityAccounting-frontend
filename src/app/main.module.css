@@ -1,0 +1,60 @@
+.map {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.contentBlock {
+    flex: 1 1 auto;
+    min-height: 500px;
+    background: rgba(255, 255, 255, 0.192);
+    backdrop-filter: blur(11px);
+    border: 1px solid rgba(139, 139, 139, 0.568);
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 10%;
+    transition: .3s;
+}
+
+.rightBlock {
+    flex: 0.6 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.leftBlock {
+    flex: 0.4 1 auto;
+}
+
+.contentNavigation {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.item__contentNavigation {
+    border: 1px solid gray;
+    border-radius: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 1px 10px;
+    transition: .1s;
+    user-select: none;
+}
+
+.activeItem__contentNavigation {
+    color: #ffffff;
+    background-color: gray;
+}
