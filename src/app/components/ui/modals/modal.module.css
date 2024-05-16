@@ -1,0 +1,92 @@
+.modalWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.modal {
+    min-width: 400px;
+    min-height: 400px;
+    background-color: #ffffff;
+    padding: 40px;
+    opacity: 1;
+    position: relative;
+}
+
+.modalClose {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modalBuilding {
+    transform: translateY(100%);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.formInput {
+    border-bottom: 1px solid gray;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.coordinatesInputs {
+    display: flex;
+    gap: 20px;
+}
+
+.saveButton {
+    border-radius: 50px;
+    border: 2px solid gray;
+    padding: 10px 20px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+
+
+.closeButtonWrapper {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+}
+
+.closeButton::before, .closeButton::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 25px;
+    background-color: gray;
+    border-radius: 25px;
+    position: absolute;
+}
+
+.closeButton::before {
+    rotate: 45deg;
+}
+
+.closeButton::after {
+    rotate: -45deg;
+}

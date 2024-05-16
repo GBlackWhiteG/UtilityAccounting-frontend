@@ -1,38 +1,75 @@
-"use client"
+'use client'
 import { useState } from "react";
 import styles from "./main.module.css";
-import { Button } from "@/app/ui/button";
+import { GeneralInfo, TariffsInfo, DebpsInfo } from "./mainData";
+import YandexMap from "./map";
+import { Modal } from "./components/ui/modals/stage/stageModal";
+
+import { buildingState } from "./interfaces/IBuilding";
 
 export default function Home() {
-  const [page, setPage] = useState("main")
+  const [isWindowOpen, setWindowState] = useState(false);
+  const [building, getBuilding] = useState<buildingState | undefined>();
+  const [page, setPage] = useState("general");
+  const [isStagePopupOpen, setStageModalState] = useState(false);
 
-  const handlePageChange = (pageName: string) => {
+  const closeInfoWindow = (): void => {
+    setWindowState(false);
+  }
+
+  const handleBuilding = (buildingInfo: buildingState | undefined): void => {
+    getBuilding(buildingInfo);
+  }
+
+  const handlePageChange = (pageName: string): void => {
     setPage(pageName);
+  }
+
+  const openStagePopup = (): void => {
+    setStageModalState(true);
+  }
+
+  let stages: number[] = [];
+  if (building !== undefined) {
+    for (let i = 0; i < building?.stages.length; i++) {
+      stages.push(i);
+    }
   }
 
   return (
     <main>
-      <iframe className={styles.map} src="https://yandex.ru/map-widget/v1/?ll=52.427214%2C55.765969&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1Njk0NDA5MhKFAdCg0L7RgdGB0LjRjywg0KDQtdGB0L_Rg9Cx0LvQuNC60LAg0KLQsNGC0LDRgNGB0YLQsNC9LCDQndCw0LHQtdGA0LXQttC90YvQtSDQp9C10LvQvdGLLCDRg9C70LjRhtCwINCo0LDQvNC40LvRjyDQo9GB0LzQsNC90L7QstCwLCAxMjIiCg3KtFFCFXgQX0I%2C&z=15.03"></iframe>
       <div className="container">
-        <div className={styles.wrapper}>
-          <div className={`${styles.leftBlock} ${styles.contentBlock}`}>
-            <p>Левый блок</p>
-          </div>
+        <div className={`${styles.mapContainer} ${isWindowOpen ? styles.disableMap : ''}`}>
+          <YandexMap setWindowState={setWindowState} getBuilding={handleBuilding} />
+        </div>
+        <div className={isWindowOpen ? styles.wrapper : `${styles.wrapperClose} ${styles.wrapper}`}>
+          <ul className={`${styles.leftBlock} ${styles.contentBlock}`}>
+            <li className={stages.length > 0 ? styles.roof : styles.hiddenEl}></li>
+            {stages.map((index: number) => (
+              <li key={index} className={styles.stage}></li>
+            ))}
+            <li className={stages.length > 0 ? styles.base : styles.hiddenEl}></li>
+            <div className={styles.addButtonWrapper} onClick={openStagePopup}>
+              <span className={styles.addButton}></span>
+            </div>
+          </ul>
           <div className={`${styles.rightBlock} ${styles.contentBlock}`}>
             <ul className={styles.contentNavigation}>
-               <li className={page === "main" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("main")}>Общее</li>
-               <li className={page === "tariffs" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("tariffs")}>Тарифы</li>
-               <li className={page === "debts" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("debts")}>Задолженность</li>
+              <li className={page === "general" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("general")}>Общее</li>
+              <li className={page === "tariffs" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("tariffs")}>Тарифы</li>
+              <li className={page === "debts" ? `${styles.item__contentNavigation} ${styles.activeItem__contentNavigation}` : styles.item__contentNavigation} onClick={() => handlePageChange("debts")}>Задолженность</li>
             </ul>
             <div className="informationBlock">
-              <h2>Общая информация о здании:</h2>
-              <ul>
-                <li>Количество этажей: <span></span></li>
-                <li>Количество жителей: <span></span></li>
-              </ul>
+              {page == "general" && <GeneralInfo buildingInfo={building} />}
+              {page == "tariffs" && <TariffsInfo buildingInfo={building} />}
+              {page == "debts" && <DebpsInfo buildingInfo={building} />}
+            </div>
+            <div className={styles.closeButtonWrapper} onClick={closeInfoWindow}>
+              <span className={styles.closeButton}></span>
             </div>
           </div>
         </div>
+        <Modal id={building && building.stages.length > 0 ? building.stages[0].buildingId : 0} isOpen={isStagePopupOpen} setModalState={setStageModalState} />
       </div>
     </main>
   );

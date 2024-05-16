@@ -7,4 +7,4 @@ export const Button: FC<{ text: string }> = ({ text }):JSX.Element => {
             <span className={styles.buttonText}>{text}</span>
         </button>
     )
-};
+}
