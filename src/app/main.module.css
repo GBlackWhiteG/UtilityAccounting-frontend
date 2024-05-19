@@ -29,7 +29,8 @@
 
 .contentBlock {
     flex: 1 1 auto;
-    min-height: 500px;
+    max-height: 500px;
+    height: 100%;
     background: rgba(255, 255, 255, 0.192);
     backdrop-filter: blur(11px);
     border: 1px solid rgba(139, 139, 139, 0.568);
@@ -53,15 +54,19 @@
     max-width: 400px;
     flex: 0.4 1 auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: space-around;
     position: relative;
+}
+
+.buildingWrapper {
+    width: 100%;
+    overflow-y: scroll;
 }
 
 .contentNavigation {
     display: flex;
-    gap: 15px;
+    gap: 15px;    
     margin-bottom: 25px;
 }
 
@@ -78,6 +83,11 @@
 .activeItem__contentNavigation {
     color: #ffffff;
     background-color: gray;
+}
+
+.informationBlock {
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .closeButtonWrapper {
@@ -155,6 +165,7 @@
     width: 85px;
     border: 1px solid black;
     border-bottom: none;
+    margin: 0 auto;
 }
 
 .stage {
@@ -163,7 +174,15 @@
     width: 100px;
     border: 1px solid black;
     border-bottom: none;
+    margin: 0 auto;
     position: relative;
+    transition: .1s;
+    cursor: pointer;
+}
+
+.stage:hover {
+    scale: 1.1;
+    border-bottom: 1px solid black;
 }
 
 .stage::after, .stage::before {
@@ -191,6 +210,7 @@
     width: 110px;
     border: 1px solid black;
     position: relative;
+    margin: 0 auto;
 }
 
 .base:after {
@@ -208,6 +228,27 @@
 
 .hiddenEl {
     display: none;
+}
+
+
+
+.generalInfoWrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.downloadButton {
+    border: 2px solid gray;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin-top: 20px;
 }
 
 

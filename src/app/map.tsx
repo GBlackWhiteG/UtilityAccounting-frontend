@@ -3,14 +3,15 @@ import { Map, Placemark, ObjectManager, YMaps } from 'react-yandex-maps'
 import { Modal } from './components/ui/modals/buidling/buildingModal';
 import styles from "./main.module.css";
 import { buildingState, building } from './interfaces/IBuilding';
-import { stageState } from './interfaces/IStage';
+import { getStages } from '@/app/fetches/getBuildingStates';
 
 interface IYandexMap {
-    setWindowState: Dispatch<SetStateAction<boolean>>;
+    setWindowState: Dispatch<SetStateAction<boolean>>
     getBuilding: Dispatch<SetStateAction<buildingState | undefined>>
+    setBuildingId: Dispatch<SetStateAction<number>>
 }
 
-const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding }) => {
+const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding, setBuildingId }) => {
     const [buildings, setBuildings] = useState<building[] | undefined>(undefined);
     const [isBuidlingPopupOpen, setBuildlingState] = useState(false);
 
@@ -18,23 +19,8 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding }) => {
         setWindowState(true);
     };
 
-    const openBuidlingPopup = (): void => {
+    const openBuildingPopup = (): void => {
         setBuildlingState(true);
-    }
-
-    async function getStages(Id: number): Promise<stageState[] | undefined> {
-        const headers = new Headers();
-        headers.set("Content-Type", "application/json");
-        const options = {
-            method: "GET",
-            headers: headers
-        };
-
-        const response = await fetch(`https://localhost:7004/api/building/stages?id=${Id}`, options);
-        if (response.ok) {
-            return await response.json();
-        }
-        return undefined;
     }
 
     async function getBuildings(): Promise<building[] | undefined> {
@@ -60,6 +46,7 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding }) => {
                 getBuilding({stages: data});
             }
         });
+        setBuildingId(objId);
         openInfoWindow();
     };
 
@@ -100,7 +87,7 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding }) => {
                     />
                 </Map>
             </YMaps>
-            <div className={`${styles.addButtonWrapper} ${styles.addBuildingWrapper}`} onClick={openBuidlingPopup}>
+            <div className={`${styles.addButtonWrapper} ${styles.addBuildingWrapper}`} onClick={openBuildingPopup}>
                 <span className={styles.addButton}></span>
             </div>
             <Modal isOpen={isBuidlingPopupOpen} setModalState={setBuildlingState} />
