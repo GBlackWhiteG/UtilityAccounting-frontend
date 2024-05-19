@@ -1,0 +1,11 @@
+{
+    "build": {
+      "env": {
+        "NEXT_PUBLIC_API_URL": "https://your-api-url.com"
+      },
+      "commands": {
+        "build": "npm run custom-install && npm run build"
+      }
+    }
+  }
+  
