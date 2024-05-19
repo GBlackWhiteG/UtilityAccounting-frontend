@@ -9,7 +9,7 @@ import { buildingState } from "./interfaces/IBuilding";
 
 export default function Home() {
   const [isWindowOpen, setWindowState] = useState(false);
-  const [building, getBuilding] = useState<buildingState | undefined>();
+  const [building, setBuilding] = useState<buildingState | undefined>();
   const [buildingId, setBuildingId] = useState(0);
   const [stageId, setStageId] = useState(0);
   const [page, setPage] = useState("general");
@@ -18,10 +18,6 @@ export default function Home() {
 
   const closeInfoWindow = (): void => {
     setWindowState(false);
-  }
-
-  const handleBuilding = (buildingInfo: buildingState | undefined): void => {
-    getBuilding(buildingInfo);
   }
 
   const handlePageChange = (pageName: string): void => {
@@ -45,7 +41,7 @@ export default function Home() {
     <main>
       <div className="container">
         <div className={`${styles.mapContainer} ${isWindowOpen ? styles.disableMap : ''}`}>
-          <YandexMap setWindowState={setWindowState} getBuilding={handleBuilding} setBuildingId={setBuildingId} />
+          <YandexMap setWindowState={setWindowState} getBuilding={setBuilding} setBuildingId={setBuildingId} />
         </div>
         <div className={isWindowOpen ? styles.wrapper : `${styles.wrapperClose} ${styles.wrapper}`}>
           <div className={`${styles.leftBlock} ${styles.contentBlock}`}>
@@ -76,8 +72,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Modal id={buildingId} isOpen={isAddStagePopupOpen} setModalState={setAddStageModalState} getBuilding={getBuilding} type="add" />
-        <Modal id={buildingId} isOpen={isUpdateRemoveStagePopupOpen} setModalState={setUpdateRemoveStageModalState} getBuilding={getBuilding} type="update/remove" stageId={stageId} />
+        <Modal id={buildingId} isOpen={isAddStagePopupOpen} setModalState={setAddStageModalState} getBuilding={setBuilding} type="add" />
+        <Modal id={buildingId} isOpen={isUpdateRemoveStagePopupOpen} setModalState={setUpdateRemoveStageModalState} getBuilding={setBuilding} type="update/remove" stageId={stageId} />
       </div>
     </main>
   );
