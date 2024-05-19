@@ -1,4 +1,4 @@
-import React, { FC, useState, Dispatch, SetStateAction } from "react"
+import React, { FC, useState, Dispatch, SetStateAction, ChangeEvent } from "react"
 import { addBuidling } from "@/app/interfaces/IBuilding"
 import styles from '../modal.module.css'
 
@@ -16,6 +16,15 @@ export const Modal: FC<IModal> = ({ isOpen, setModalState }):JSX.Element => {
         setModalState(false);
     }
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>, setCoordinate: Dispatch<SetStateAction<string>>): void => {
+        const value = e.target.value;
+        const regex = /^[0-9]{0,2}(\.[0-9]{0,6})?$/;
+
+        if (regex.test(value)) {
+            setCoordinate(value);
+        }
+    };
+
     async function postStages(firstCoordinate: string, secondCoordinate: string, address: string): Promise<void> {
         const data: addBuidling = {
             coordinates: [parseFloat(firstCoordinate), parseFloat(secondCoordinate)],
@@ -31,33 +40,49 @@ export const Modal: FC<IModal> = ({ isOpen, setModalState }):JSX.Element => {
         };
 
         const response = await fetch(`https://localhost:7004/api/building/add`, options);
+
+        if (response.ok) {
+            window.location.reload();
+        }
     }
 
     return (
         <div className={`${styles.modalWrapper} ${styles.modalBuilding} ${isOpen ? '' : styles.modalClose}`}>
             <div className={styles.modal}>
                 <h2 className={styles.formTitle}>Добавить новое здание</h2>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={(e) => {
+                    e.preventDefault();
+                    postStages(firstCoordinateState, secondCoordinateState, buildingAddress)
+                    setFirstCoordinate("");
+                    setSecondCoordinate("");
+                    setBuildingAddres("");
+                }}>
                     <div className={styles.coordinatesInputs}>
                         <div className={styles.formItem}>
                             <label htmlFor='firstCoordinate'>Первая координата:</label>
                             <input
                                 placeholder="00.000000"
                                 value={firstCoordinateState}
-                                onChange={e => setFirstCoordinate(e.target.value)}
+                                onChange={(e) => handleChange(e, setFirstCoordinate)}
                                 id='firstCoordinate'
                                 type='text'
-                                className={styles.formInput} />
+                                pattern="[0-9]{2}\.[0-9]{6}"
+                                className={styles.formInput}
+                                required
+                            />
                         </div>
                         <div className={styles.formItem}>
                             <label htmlFor='secondCoordinate'>Вторая координата:</label>
                             <input
                                 placeholder="00.000000"
                                 value={secondCoordinateState}
-                                onChange={e => setSecondCoordinate(e.target.value)}
+                                onChange={(e) => handleChange(e, setSecondCoordinate)}
                                 id='secondCoordinate'
                                 type='text'
-                                className={styles.formInput} />
+                                pattern="[0-9]{2}\.[0-9]{6}"
+                                className={styles.formInput}
+                                required    
+                            />
                         </div>
                     </div>
                     <div className={styles.formItem}>
@@ -67,12 +92,13 @@ export const Modal: FC<IModal> = ({ isOpen, setModalState }):JSX.Element => {
                                 onChange={e => setBuildingAddres(e.target.value)}
                                 id='buildingAddress'
                                 type='text'
-                                className={styles.formInput} />
+                                className={styles.formInput}
+                                required
+                            />
                         </div>
                     <input 
                         type="submit"
                         value="Сохранить"
-                        onClick={(e) => {e.preventDefault(), postStages(firstCoordinateState, secondCoordinateState, buildingAddress)}}
                         className={styles.saveButton}
                     />
                 </form>
