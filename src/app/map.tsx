@@ -31,7 +31,7 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding, setBuildingId 
             headers: headers
         };
 
-        const response = await fetch(`https://localhost:44383/api/building/list`, options);
+        const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/building/list`, options);
         if (response.ok) {
             return await response.json();
         }
