@@ -31,7 +31,7 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding, setBuildingId 
             headers: headers
         };
 
-        const response = await fetch(`https://localhost:7004/api/building/list`, options);
+        const response = await fetch(`https://localhost:44383/api/building/list`, options);
         if (response.ok) {
             return await response.json();
         }
@@ -78,7 +78,7 @@ const YandexMap: FC<IYandexMap> = ({ setWindowState, getBuilding, setBuildingId 
                             id: building.id,
                             geometry: {
                                 type: 'Point',
-                                coordinates: building.coordinates
+                                coordinates: [building.firstCoordinate, building.secondCoordinate ]
                             },
                             properties: {
                                 objectId: building.id,

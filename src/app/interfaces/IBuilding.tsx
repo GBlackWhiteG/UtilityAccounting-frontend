@@ -6,11 +6,13 @@ export interface buildingState {
 
 export interface building {
     id: number,
-    coordinates: number[],
+    firstCoordinate: number,
+    secondCoordinate: number,
     address: string
 }
 
-export interface addBuidling {
-    coordinates: number[],
+export interface addBuilding {
+    firstCoordinates: number,
+    secondCoordinates: number,
     address: string
 }

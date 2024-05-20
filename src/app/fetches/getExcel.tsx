@@ -7,7 +7,7 @@ export async function getExcel(id: number): Promise<Response> {
         responseType: "blob"
     };
 
-    const response = await fetch(`https://localhost:7004/getExcel?id=${id}`, options);
+    const response = await fetch(`https://a26974-8b7b.k.d-f.pw/getExcel?id=${id}`, options);
 
     return response;
 }

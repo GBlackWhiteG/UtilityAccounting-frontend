@@ -1,5 +1,5 @@
 import React, { FC, useState, Dispatch, SetStateAction, ChangeEvent } from "react"
-import { addBuidling } from "@/app/interfaces/IBuilding"
+import { addBuilding } from "@/app/interfaces/IBuilding"
 import styles from '../modal.module.css'
 
 interface IModal {
@@ -26,8 +26,9 @@ export const Modal: FC<IModal> = ({ isOpen, setModalState }):JSX.Element => {
     };
 
     async function postStages(firstCoordinate: string, secondCoordinate: string, address: string): Promise<void> {
-        const data: addBuidling = {
-            coordinates: [parseFloat(firstCoordinate), parseFloat(secondCoordinate)],
+        const data: addBuilding = {
+            firstCoordinates: parseFloat(firstCoordinate),
+            secondCoordinates: parseFloat(secondCoordinate),
             address: address
         }
 
@@ -39,8 +40,8 @@ export const Modal: FC<IModal> = ({ isOpen, setModalState }):JSX.Element => {
             body: JSON.stringify(data)
         };
 
-        const response = await fetch(`https://localhost:7004/api/building/add`, options);
-
+        const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/building/add`, options);
+        
         if (response.ok) {
             window.location.reload();
         }

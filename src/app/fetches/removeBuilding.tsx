@@ -6,7 +6,7 @@ export async function removeBuilding(id: number): Promise<Response> {
         headers: headers
     };
 
-    const response = await fetch(`https://localhost:7004/api/building/delete?id=${id}`, options); 
+    const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/building/delete?id=${id}`, options); 
     
     return response;
 }

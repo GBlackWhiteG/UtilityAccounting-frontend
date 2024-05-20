@@ -16,7 +16,7 @@ export async function updateStage(id: number, buildingId: number, tariffs: strin
         body: JSON.stringify(data)
     };
 
-    const response = await fetch(`https://localhost:7004/api/stage/update`, options);
+    const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/stage/update`, options);
 
     return response;
 }

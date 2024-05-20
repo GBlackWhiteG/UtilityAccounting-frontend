@@ -15,7 +15,7 @@ export async function addStage (buidlingId: number, tariffs: string, payments: s
         body: JSON.stringify(data)
     };
 
-    const response = await fetch(`https://localhost:7004/api/stage/add`, options);
+    const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/stage/add`, options);
 
     return response;
 } 

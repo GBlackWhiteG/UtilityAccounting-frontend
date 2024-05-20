@@ -8,7 +8,7 @@ export async function getStages(Id: number): Promise<stageState[] | undefined> {
         headers: headers
     };
 
-    const response = await fetch(`https://localhost:7004/api/building/stages?id=${Id}`, options);
+    const response = await fetch(`https://a26974-8b7b.k.d-f.pw/api/building/stages?id=${Id}`, options);
     if (response.ok) {
         return await response.json();
     }
